@@ -1,0 +1,29 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+    <div class="col">
+        <div class="row">
+            <ng-container *ngFor="let p of myPost;index as i">
+                <div class="col col-md-4 col-sm-12">
+                    <div class="card" style="width: 18rem;">
+                        <img [src]="p.image" class="card-img-top" alt="..." height="200px">
+                        <div class="card-body">
+                            <h5 class="card-title">{{p.title | titlecase}}</h5>
+                            <p class="card-text">{{p.content}}</p>
+                            <p>Posted by {{p.author}} at {{p.createdAt| date: 'dd/MM/yyyy hh:mm a'}}</p>
+                            <div class="card-footer">
+                                <a id="set-width" class="btn btn-primary btn-block button-width"
+                                    [routerLink]="['/new-post/',p.id]">Edit Post</a><br><br>
+                                <button id="set-width" class="btn btn-danger btn-block button-width"
+                                    (click)="deletePost(p.id)">Delete Post</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br><br>
+                <div *ngIf="(i+1)%3===0" class="w-100"><br></div>
+            </ng-container>
+        </div>
+
+    </div>
+</div>
