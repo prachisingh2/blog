@@ -96,9 +96,9 @@
       "id": 1702592625496,
       "author": "David",
       "title": "Mashable",
-      "content": "Mashable is a global, multi-platform media and entertainment company. Powered by its own proprietary technology, Mashable is the go-to source for tech, digital culture and entertainment content.",
+      "content": "Mashable is a global, multi-platform media and entertainment company. Powered by its own proprietary technology, It is the go-to source for tech, digital culture and entertainment content.",
       "image": "https://detailed.com/images/mashable.jpg",
-      "createdAt": "2023-12-14T22:23:45.496Z",
+      "createdAt": "2023-12-15T04:55:45.611Z",
       "userid": "david123@gmail.comDavid"
     },
     {
@@ -118,6 +118,15 @@
       "image": "https://detailed.com/images/tech-crunch.jpg",
       "createdAt": "2023-12-14T22:30:46.743Z",
       "userid": "lilys@gmail.comLily"
+    },
+    {
+      "id": 1702616122311,
+      "author": "David",
+      "title": "Android Authority",
+      "content": "With over 7 million followers on social sites, AndroidAuthority is the largest publication dedicated to the world's most widely used operating system.",
+      "image": "https://detailed.com/images/android-authority.jpg",
+      "createdAt": "2023-12-15T04:55:22.311Z",
+      "userid": "david123@gmail.comDavid"
     }
   ],
   "comments": [
