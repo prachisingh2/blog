@@ -13,7 +13,6 @@ import { NewPostComponent } from './components/new-post/new-post.component';
 import { RouterModule } from '@angular/router';
 import { ContactFormComponent } from './components/contact-form/contact-form.component';
 import { MyPostsComponent } from './components/my-posts/my-posts.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -42,7 +41,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ]),
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule,
+    HttpClientModule
   ],
   providers: [
     provideClientHydration()
