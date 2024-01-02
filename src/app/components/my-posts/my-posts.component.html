@@ -9,13 +9,20 @@
                         <img [src]="p.image" class="card-img-top" alt="..." height="200px">
                         <div class="card-body">
                             <h5 class="card-title">{{p.title | titlecase}}</h5>
-                            <p class="card-text">{{p.content}}</p>
-                            <p>Posted by {{p.author}} at {{p.createdAt| date: 'dd/MM/yyyy hh:mm a'}}</p>
+                            <span *ngIf="!showMore[p.pid]">{{ (p.content.length > 100 ? p.content.substr(0, 100) + '...' : p.content)
+                            }}</span>
+                          <button class="see-more" *ngIf="!showMore[p.pid]" (click)="toggleShowMore(p.pid, $event)">See
+                            More</button>
+            
+                          <p *ngIf="showMore[p.pid]">{{ p.content }}</p>
+                          <button class="see-more" *ngIf="showMore[p.pid]" (click)="toggleShowMore(p.pid, $event)">See Less</button>
+                          
+                            <p>Posted by {{p.author}} at {{p.createdAt| date: 'dd/MM/yyyy'}}</p>
                             <div class="card-footer">
                                 <a id="set-width" class="btn btn-primary btn-block button-width"
-                                    [routerLink]="['/new-post/',p.id]">Edit Post</a><br><br>
+                                    [routerLink]="['/edit-post/',p.pid]">Edit Post</a><br><br>
                                 <button id="set-width" class="btn btn-danger btn-block button-width"
-                                    (click)="deletePost(p.id)">Delete Post</button>
+                                    (click)="deletePost(p.pid)">Delete Post</button>
                             </div>
                         </div>
                     </div>

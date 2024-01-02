@@ -6,35 +6,32 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <ul class="navbar-nav me-auto mb-2 mb-md-0">
-        <li  class="nav-item">
+        <li class="nav-item">
           <a class="nav-link" routerLink="/login">Login</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/signup">Signup</a>
         </li>
       </ul>
-      
     </div>
   </div>
 </nav>
 <div class="container">
-<h2 class="text-center">Sign Up</h2>
-<form #f="ngForm" (ngSubmit)="onSignup(f)">
-  <input ngModel #name="ngModel" name="name" type="text" class="form-control" placeholder="Your name" required><br>
-  <div class="alert alert-danger" *ngIf="name.touched && name.invalid">Your name is required!</div>
-  <input ngModel #email="ngModel" name="email" type="email" class="form-control" placeholder="Email" required email><br>
-  <div class="alert alert-danger" *ngIf="email.touched && email.errors?.['required']">Email is required!</div>
-  <div class="alert alert-danger" *ngIf="email.touched && email.errors?.['email']">Your input doesn't match email format!</div>
+  <h2 class="text-center">Sign Up</h2>
+  <form (ngSubmit)="onSignup()" #registerForm="ngForm">
+    <input name="name" [(ngModel)]="user.name" type="text" class="form-control" placeholder="Your name" required><br>
+    <div class="alert alert-danger" *ngIf="registerForm.controls['name']?.touched && registerForm.controls['name']?.invalid">Your name is required!</div>
 
-  <input ngModel #pass="ngModel" name="password" type="password" class="form-control" placeholder="Password" required minlength="4"><br>
-  <div class="alert alert-danger" *ngIf="pass.touched && pass.errors?.['required']">Password is required!</div>
-  <div class="alert alert-danger" *ngIf="pass.touched && pass.errors?.['minlength']">Please, enter atleast 4 character!</div>
+    <input name="email" [(ngModel)]="user.email" type="email" class="form-control" placeholder="Email" required email><br>
+    <div class="alert alert-danger" *ngIf="registerForm.controls['email']?.touched && registerForm.controls['email']?.invalid">Email is required!</div>
 
-  <input ngModel #confirmPass="ngModel" name="confirmPassword" type="password" class="form-control" placeholder="Confirm Password" required><br>
-  <div class="alert alert-danger" *ngIf="confirmPass.touched && confirmPass.errors?.['required']">Confirm password required!</div>
-  <div class="alert alert-danger" *ngIf="confirmPass.touched && pass.value != confirmPass.value">Confirm Password are not equal to password!</div>
+    <input name="password" [(ngModel)]="user.password" type="password" class="form-control" placeholder="Password" required minlength="4"><br>
+    <div class="alert alert-danger" *ngIf="registerForm.controls['password']?.touched && registerForm.controls['password']?.invalid">Password is required!</div>
 
-  
-  <button class="btn btn-primary" [disabled]="f.invalid || pass.value != confirmPass.value">Create Account</button>
-</form>
+    <input name="confirmPassword" [(ngModel)]="confirmPassword" type="password" class="form-control" placeholder="Confirm Password" required><br>
+    <div class="alert alert-danger" *ngIf="registerForm.controls['confirmPassword']?.touched && registerForm.controls['confirmPassword']?.invalid">Confirm password required!</div>
+    <div class="alert alert-danger" *ngIf="registerForm.controls['confirmPassword']?.touched && user.password != confirmPassword">Confirm Password is not equal to password!</div>
+
+    <button class="btn btn-primary" [disabled]="registerForm.invalid || user.password != confirmPassword">Create Account</button>
+  </form>
 </div>

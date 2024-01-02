@@ -26,14 +26,21 @@ export class MyPostsComponent implements OnInit {
     this.getMyPost();
   }
 
+  showMore: { [key: string]: boolean } = {};
+
+  toggleShowMore(pid: number, event: any) {
+    event.stopPropagation();
+    this.showMore[pid.toString()] = !this.showMore[pid.toString()];
+  }
+
   getMyPost() {
-    const currentUserId = this.authService.currentUserId;
-    //console.log(this.authService.currentUserId);
+    const currentUserId = Number(this.authService.currentUserId);
+    // console.log('Current user id:',currentUserId); 
     if (currentUserId) {
-        this.restApi.getMyPost(currentUserId).subscribe(res => {
-            this.myPost = res;
-            //console.log(this.myPost);  
-        });
+      this.restApi.getMyPost(currentUserId).subscribe(res => {
+        this.myPost = res;
+        // console.log('Fetched Posts:', this.myPost);
+      });
     } else {
       this.route.navigate(['login']);
     }

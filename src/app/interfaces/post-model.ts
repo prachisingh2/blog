@@ -1,9 +1,12 @@
 export class PostModel {
-    id?:number;
+    pid?:number;
     author?:any;
+    authorid?:number;
     title?:string;
     content?:string;
     image?:string;
-    createdAt?:Date;
+    createdAt?:string;
     userid?:any;
+    likes?:number;
+    likedBy?: string[];
 }

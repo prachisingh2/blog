@@ -1,39 +1,40 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../interfaces/user';
+import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrls: ['./register.component.css']
 })
-
-
 export class RegisterComponent implements OnInit {
-  userObj: User = new User();
-  constructor(private auth: AuthService, private route: Router) { }
+  user: User = { name: '', email: '', password: '' };
+  confirmPassword: string = '';
 
-  ngOnInit(): void {
+  constructor(
+    private auth: AuthService,
+    private userService: UserService,
+    private router: Router
+  ) { }
+
+  ngOnInit(): void {}
+
+  onSignup(): void {
+    if (this.user.password === this.confirmPassword) {
+      this.user.id = new Date().valueOf();
+      this.auth.addUser(this.user).subscribe(
+        res => {
+          this.userService.setUser(this.user);
+          this.router.navigate(["home"]);
+        },
+        error => {
+          alert("Some error occurred");
+        }
+      );
+    } else {
+      alert("Passwords do not match");
+    }
   }
-  onSignup(form: NgForm) {
-    this.userObj.id = new Date().valueOf();
-    this.userObj.name = form.value.name;
-    this.userObj.email = form.value.email;
-    this.userObj.password = form.value.password;
-    localStorage.setItem('user', form.value.name);
-    localStorage.setItem('user_id', form.value.email + form.value.password);
-    localStorage.setItem('email', form.value.email);
-    this.auth.addUser(this.userObj).subscribe(res => {
-
-      this.route.navigate(["\home"]);
-
-    },
-      error => {
-        alert("Some error occured");
-      })
-  }
-
-
 }

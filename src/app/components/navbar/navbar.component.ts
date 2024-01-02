@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 
 @Component({
@@ -9,15 +10,11 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
   username: any;
-  constructor(private router: Router) {
-    let uname = localStorage.getItem('user');
-    if (uname !== "") {
-      this.username = uname;
-    }
-    else {
+  constructor(private router: Router,private userService: UserService) {
+    this.username = this.userService.getUser();
+    if (!this.username) {
       this.router.navigate(['login']);
     }
-
   }
 
   ngOnInit(): void {
@@ -27,9 +24,7 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(["/new-post/add"]);
   }
   logout() {
-    localStorage.setItem('user', "");
-    localStorage.setItem('user_id', "");
-    localStorage.setItem('email', "");
+    this.userService.clearUser();
     this.router.navigate(['login']);
     sessionStorage.clear();
   }

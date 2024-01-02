@@ -8,11 +8,13 @@ import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpBackend, HttpClient  } from '@angular/common/http';
 import { NewPostComponent } from './components/new-post/new-post.component';
 import { RouterModule } from '@angular/router';
 import { ContactFormComponent } from './components/contact-form/contact-form.component';
 import { MyPostsComponent } from './components/my-posts/my-posts.component';
+import { LikedPostsComponent } from './components/liked-posts/liked-posts.component';
+import { ViewPostComponent } from './components/view-post/view-post.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { MyPostsComponent } from './components/my-posts/my-posts.component';
     NavbarComponent,
     NewPostComponent,
     ContactFormComponent,
-    MyPostsComponent
+    MyPostsComponent,
+    LikedPostsComponent,
+    ViewPostComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +48,7 @@ import { MyPostsComponent } from './components/my-posts/my-posts.component';
     HttpClientModule
   ],
   providers: [
-    provideClientHydration()
+   {provide: HttpClient, deps: [HttpBackend] }, provideClientHydration()
   ],
   bootstrap: [AppComponent]
 })

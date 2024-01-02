@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { PostModel } from '../../interfaces/post-model';
 import { ApiService } from '../../services/api.service';
 import { HttpClient } from '@angular/common/http';
+import { UserService } from '../../services/user.service';
+import { PostService } from '../../services/post.service';
 
 @Component({
   selector: 'app-home',
@@ -16,15 +18,15 @@ export class HomeComponent implements OnInit {
   filteredItems: any;
 
   constructor(private restApi: ApiService,
-    private router: Router, private http: HttpClient) {
-    let uname = localStorage.getItem('user');
-    if (uname !== "") {
-      this.username = uname;
-    }
-    else {
+    private router: Router,
+    private http: HttpClient,
+    private userService: UserService,
+    private postService: PostService) {
+    this.username = this.userService.getUser();
+    if (!this.username) {
       this.router.navigate(['login']);
     }
-    this.http.get('/db.json').subscribe(data => {
+    this.http.get('http://localhost:3000/posts').subscribe(data => {
       this.postData = data;
       this.filteredItems = this.postData;
     });
@@ -32,8 +34,14 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.getAllPost();
   }
-  getAllPost() {
+  showMore: { [key: string]: boolean } = {};
 
+  toggleShowMore(pid:number, event:any) {
+    event.stopPropagation();
+    this.showMore[pid.toString()] = !this.showMore[pid.toString()];
+  }
+
+  getAllPost() {
     this.restApi.getPost().subscribe(res => {
       this.postData = res;
       this.filteredItems = this.postData;
@@ -53,10 +61,26 @@ export class HomeComponent implements OnInit {
       this.filteredItems = this.postData;
     } else {
       this.filteredItems = this.postData.filter((post: any) =>
-        post.title.toLowerCase().includes(this.searchText.toLowerCase())
+        post.title.toLowerCase().includes(this.searchText.toLowerCase()) || 
+        post.author.toLowerCase().includes(this.searchText.toLowerCase())  
       );
     }
   }
-
-
+  likePost(post: PostModel, event: any): void {
+    event.stopPropagation();
+    
+    const user = this.userService.getUser();
+    const userId = user ? user.id : null;
+  
+    if (post.pid !== undefined && userId) {
+      this.postService.likePost(post.pid.toString(), userId.toString()).subscribe((updatedPost: PostModel) => {
+        post.likes = updatedPost.likes ? updatedPost.likes : 0;
+        post.likedBy = updatedPost.likedBy;
+      });
+    }
+  }
+  
+  viewPost(post:PostModel) {
+    this.router.navigate(['/view-post', post.pid]);
+  }
 }

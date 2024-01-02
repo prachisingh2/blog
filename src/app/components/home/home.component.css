@@ -1,3 +1,32 @@
-#set-width{
-    width:210px;
-}
+  .card-img-top {
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .card-body {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .card-title,
+  .card-text {
+    flex: 1;
+  }
+  
+  .post-date {
+    color: #aaa;  /* Change this to any light color you prefer */
+    font-size: 0.8em;  /* Adjust this to make the text smaller */
+  }
+  
+  .btn {
+    margin-top: 10px;
+  }
+  button.see-more {
+    background: none!important;
+    border: none;
+    padding: 0!important;
+    font-family: arial, sans-serif;
+    color: #069;
+    text-decoration: underline;
+    cursor: pointer;
+  }
