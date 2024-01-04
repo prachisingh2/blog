@@ -61,4 +61,19 @@ router.get('/logout', (req, res) => {
   });
 });
 
+router.get('/me', (req, res) => {
+  if (req.session.userId) {
+    con.query('SELECT * FROM users WHERE id = ?', [req.session.userId], (err, users) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send({ message: 'Internal server error' });
+      } else {
+        res.send(users[0]);
+      }
+    });
+  } else {
+    res.status(401).send({ message: 'Not logged in' });
+  }
+});
+
 module.exports = router;

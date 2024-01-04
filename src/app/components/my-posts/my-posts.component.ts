@@ -14,12 +14,13 @@ export class MyPostsComponent implements OnInit {
   constructor(
     private restApi: ApiService,
     private route: Router,
-    private authService: AuthService
-  ) {
-    let uname = this.authService.currentUser;
-    if (!uname) {
-      this.route.navigate(['login']);
-    }
+    private authService: AuthService) {
+    this.authService.getCurrentUser().subscribe(user => {
+      if (!user) {
+        this.route.navigate(['login']);
+      }}, error => {
+        console.log(error);
+      });
   }
 
   ngOnInit(): void {
@@ -34,16 +35,17 @@ export class MyPostsComponent implements OnInit {
   }
 
   getMyPost() {
-    const currentUserId = Number(this.authService.currentUserId);
-    // console.log('Current user id:',currentUserId); 
-    if (currentUserId) {
-      this.restApi.getMyPost(currentUserId).subscribe(res => {
-        this.myPost = res;
-        // console.log('Fetched Posts:', this.myPost);
-      });
-    } else {
-      this.route.navigate(['login']);
-    }
+    this.authService.getCurrentUser().subscribe(user => {
+      // console.log('Current user id:',currentUserId); 
+      if (user) {
+        this.restApi.getMyPost(user.id).subscribe(res => {
+          this.myPost = res;
+          // console.log('Fetched Posts:', this.myPost);
+        });
+      } else {
+        this.route.navigate(['login']);
+      }
+    });
   }
 
   deletePost(i: number) {

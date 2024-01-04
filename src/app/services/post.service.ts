@@ -15,19 +15,19 @@ export class PostService {
     return this.http.get<PostModel[]>('http://localhost:3000/posts');
   }
 
-  likePost(postId: string, userId: string): Observable<any> {
-    return this.http.get<PostModel>(`http://localhost:3000/posts/${postId}`).pipe(
-      switchMap(post => {
-        post.likes = post.likes ? post.likes + 1 : 1;
-        post.likedBy = post.likedBy ? [...post.likedBy, userId] : [userId];
-        return this.http.put(`http://localhost:3000/posts/${postId}`, post);
-      }),
-      catchError(error => {
-        console.error('Error in likePost:', error);
-        throw error;
-      })
-    );
-  }
+  // likePost(postId: string, userId: string): Observable<any> {
+  //   return this.http.get<PostModel>(`http://localhost:3000/posts/${postId}`).pipe(
+  //     switchMap(post => {
+  //       post.likes = post.likes ? post.likes + 1 : 1;
+  //       post.likedBy = post.likedBy ? [...post.likedBy, userId] : [userId];
+  //       return this.http.put(`http://localhost:3000/posts/${postId}`, post);
+  //     }),
+  //     catchError(error => {
+  //       console.error('Error in likePost:', error);
+  //       throw error;
+  //     })
+  //   );
+  // }
   getSinglePost(pid: number) {
     return this.http.get<any>("http://localhost:3000/posts/" + pid)
       .pipe(map((res: any) => {

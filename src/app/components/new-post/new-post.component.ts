@@ -22,12 +22,15 @@ export class NewPostComponent implements OnInit {
     private route: Router,
     private activatedRouter: ActivatedRoute,
     private authService: AuthService) {
-    let uname = this.authService.currentUser;
     this.paramId = this.activatedRouter.snapshot.paramMap.get('pid');
+    this.authService.getCurrentUser().subscribe(user => {
+      if (!user) {
+        this.route.navigate(['login']);
+      } else {
+        this.postObj.author = user.name;
+      }
+    });
     
-    if (!uname) {
-      this.route.navigate(['login']);
-    }
     if (this.paramId) {
       console.log('paramId:', this.paramId);
       this.restApi.getSinglePost(+this.paramId).subscribe(res => this.post = res[0]);
@@ -44,21 +47,16 @@ export class NewPostComponent implements OnInit {
       createdAt: [new Date()]
     })
   }
+  
   addNewPost(form: NgForm) {
     this.postObj.pid = new Date().valueOf();
-    this.postObj.author = this.authService.currentUser;
     this.postObj.title = form.value.title;
     this.postObj.content = form.value.content;
     this.postObj.image = form.value.image;
     let date = new Date();
     let formattedDate = date.toISOString().slice(0, 19).replace('T', ' ');
     this.postObj.createdAt = formattedDate;
-    this.postObj.userid = this.authService.currentUserId;
-
-    console.log('postObj:', this.postObj);
-    console.log('paramId:', this.paramId);
-    console.log('paramMap:', this.activatedRouter.snapshot.paramMap);
-    console.log('params:', this.activatedRouter.snapshot.params);
+  //  this.postObj.userid = this.authService.currentUserId;
 
     if (this.paramId) {
       this.restApi.updatePost(this.postObj, +this.paramId).subscribe(res => {

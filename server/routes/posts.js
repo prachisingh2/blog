@@ -64,11 +64,17 @@ router.get('/', (req, res) => {
 
 // Create a new post
 router.post('/', (req, res) => {
-    const postData = req.body;
-    con.query('INSERT INTO posts SET ?', postData, (err, result) => {
-        if (err) throw err;
-        res.send(result);
-    });
+    if (req.session.userId) {
+        const post = req.body;
+        post.authorid = req.session.userId;
+        const postData = req.body;
+        con.query('INSERT INTO posts SET ?', postData, (err, result) => {
+            if (err) throw err;
+            res.send(result);
+        });
+    } else {
+        res.status(401).send({ message: 'Not logged in' });
+    }
 });
 
 module.exports = router;

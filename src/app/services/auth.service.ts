@@ -6,30 +6,26 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-  private _currentUser: string | undefined;
-  private _currentUserId: number | undefined;
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) { }
   getUsers() {
-    return this.http.get<any>("http://localhost:3000/users")
+    return this.http.get<any>("http://localhost:3000/users", { withCredentials: true })
       .pipe(map((res: any) => {
         return res;
       }));
   }
-  addUser(data:any){
-    return this.http.post<any>("http://localhost:3000/users/register",data)
-      .pipe(map((res:any) => {
+  addUser(data: any) {
+    return this.http.post<any>("http://localhost:3000/users/register", data, { withCredentials: true })
+      .pipe(map((res: any) => {
         return res;
       }));
   }
 
-  login(data: any){
-    return this.http.post<any>("http://localhost:3000/users/login", data)
+  login(data: any) {
+    return this.http.post<any>("http://localhost:3000/users/login", data, { withCredentials: true })
       .pipe(map((res: any) => {
-        console.log(res.user);
+        //console.log(res.user);
         if (res && res.user) {
-          this._currentUser = res.user.name;  
-          this._currentUserId = res.user.id; 
           return res.user;
         } else {
           throw new Error("Invalid credentials");
@@ -38,15 +34,18 @@ export class AuthService {
   }
 
   logout() {
-    this._currentUser = undefined;
-    this._currentUserId = undefined;
+    return this.http.get<any>("http://localhost:3000/users/logout", { withCredentials: true })
+      .pipe(map((res: any) => {
+        if (res && res.message === 'Logged out') {
+          return true;
+        } else {
+          throw new Error('Logout failed');
+        }
+      }));
   }
 
-  get currentUser(): string | undefined {
-    return this._currentUser;
-  }
-
-  get currentUserId(): number | undefined {
-    return this._currentUserId;
+  getCurrentUser() {
+    return this.http.get<any>("http://localhost:3000/users/me", { withCredentials: true });
+    
   }
 }

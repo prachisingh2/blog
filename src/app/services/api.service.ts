@@ -19,9 +19,8 @@ export class ApiService {
   }
 
   addPost(data: any) {
-    data.authorid = this.authService.currentUserId;
     //console.log('Author ID for postadd:', data.authorid);
-    return this.http.post<any>("http://localhost:3000/posts", data)
+    return this.http.post<any>("http://localhost:3000/posts", data, { withCredentials: true })
       .pipe(map((res: any) => {
         return res;
       }));

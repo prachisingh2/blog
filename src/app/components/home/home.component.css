@@ -1,32 +1,108 @@
-  .card-img-top {
-    height: 200px;
-    object-fit: cover;
-  }
-  
-  .card-body {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .card-title,
-  .card-text {
-    flex: 1;
-  }
-  
-  .post-date {
-    color: #aaa;  /* Change this to any light color you prefer */
-    font-size: 0.8em;  /* Adjust this to make the text smaller */
-  }
-  
-  .btn {
-    margin-top: 10px;
-  }
-  button.see-more {
-    background: none!important;
-    border: none;
-    padding: 0!important;
-    font-family: arial, sans-serif;
-    color: #069;
-    text-decoration: underline;
-    cursor: pointer;
-  }
+ .card {
+   margin-bottom: 20px;
+ }
+
+ .card-img-top {
+   height: 200px;
+   object-fit: cover;
+ }
+
+ .card-body {
+  background-color: rgba(237, 237, 237, 0.8);
+   display: flex;
+   flex-direction: column;
+   position: relative;
+   padding: 15px;
+ }
+
+ .card-title {
+   flex-grow: 1;
+   font-size: 1.5em;
+   color: #333;
+ }
+
+ .card-text {
+   flex-grow: 1;
+   color: #777;
+ }
+
+ .post-date {
+   color: #c2bebe;
+   font-size: 0.8em;
+   position: absolute;
+   bottom: 10px;
+   right: 10px;
+ }
+
+ .btn {
+   margin-top: 10px;
+ }
+
+ .btn-icon {
+   padding: 0;
+   font-size: 1.5em;
+   line-height: 1;
+ }
+
+ button.see-more {
+   background: none !important;
+   border: none;
+   padding: 0 !important;
+   font-family: arial, sans-serif;
+   color: #069;
+   text-decoration: underline;
+   cursor: pointer;
+   font-size: 0.8em;
+   ;
+ }
+
+ @media (max-width: 768px) {
+   h5.card-title {
+     font-size: 1em;
+   }
+
+   p {
+     font-size: 0.8em;
+   }
+ }
+
+ .likes-post-date {
+   display: flex;
+   justify-content: space-between;
+   align-items: flex-end;
+ }
+
+ .post-date {
+   bottom: 15px;
+   right: 5px;
+ }
+
+ .likes-text {
+   font-size: 0.7em;
+ }
+
+ .btn-icon.liked {
+   color: blue;
+   animation: pop 0.3s ease;
+ }
+
+ @keyframes pop {
+   0% {
+     transform: scale(1);
+   }
+
+   50% {
+     transform: scale(1.2);
+   }
+
+   100% {
+     transform: scale(1);
+   }
+ }
+ .cross-icon {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}

@@ -6,4 +6,9 @@ button.see-more {
     color: #069;
     text-decoration: underline;
     cursor: pointer;
+    font-size: 0.9em; ;
   }
+  .align-right {
+    float: right;
+  } 
+  

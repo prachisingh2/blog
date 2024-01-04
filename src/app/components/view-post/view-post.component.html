@@ -1,4 +1,4 @@
-<app-navbar></app-navbar>
+<app-navbar class="fixed-top"></app-navbar>
 <div *ngIf="post">
   <div class="background-image" [style.backgroundImage]="'url(' + post.image + ')'"></div>
   <div class="post-container">
@@ -7,7 +7,6 @@
       <h5 class="card-title">{{post.title| titlecase}}</h5>
       <p class="card-text">{{post.content}}</p>
       <p>Posted by {{post.author}} at <span class="post-date">{{ post.createdAt | date: 'dd/MM/yyyy' }}</span></p>
-      <!-- <button (click)="likePost(post)">Like</button> {{ post?.likes }} Likes -->
     </div>
   </div>
   <br><br>

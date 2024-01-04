@@ -8,5 +8,6 @@ export class PostModel {
     createdAt?:string;
     userid?:any;
     likes?:number;
+    isLiked?: boolean;
     likedBy?: string[];
 }

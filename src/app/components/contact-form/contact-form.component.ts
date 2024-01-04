@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ContactInfo } from '../../interfaces/contact-info';
 import { ApiService } from '../../services/api.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-contact-form',
@@ -11,15 +12,19 @@ import { ApiService } from '../../services/api.service';
 })
 export class ContactFormComponent implements OnInit {
   contact:ContactInfo=new ContactInfo();
-  constructor(private restApi:ApiService,private route:Router) { 
-    let uname=localStorage.getItem('user');
-    if(uname===""){
-      this.route.navigate(['login']);
+  constructor(private restApi:ApiService,
+    private route:Router,
+    private authService: AuthService) { 
+      this.authService.getCurrentUser().subscribe(user => {
+        if (!user) {
+          this.route.navigate(['login']);
+        }
+      });
     }
-  }
 
   ngOnInit(): void {
   }
+  
   newContact(form:NgForm){
     this.contact.name=form.value.name;
     this.contact.email=form.value.email;
