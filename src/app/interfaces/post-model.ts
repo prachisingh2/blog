@@ -9,5 +9,5 @@ export class PostModel {
     userid?:any;
     likes?:number;
     isLiked?: boolean;
-    likedBy?: string[];
+    bookmarked?: boolean;
 }

@@ -11,44 +11,38 @@
         <div class="d-flex">
           <input type="search" [(ngModel)]="searchText" (keyup)="search()" placeholder="Search"
             class="form-control mb-3 mr-3" />
-            <mat-form-field>
-              <mat-label>Sort by</mat-label>
-              <mat-select [(value)]="selectedFilter" (selectionChange)="filter($event.value)">
-                <mat-select-trigger>
-                  {{selectedFilter}}
-                  <span *ngIf="selectedFilter" class="cross-icon">
-                    <mat-icon (click)="$event.stopPropagation(); clearFilter()">close</mat-icon>
-                  </span>
-                </mat-select-trigger>
-                <mat-option *ngIf="!selectedFilter || selectedFilter === 'date'" value="date">Date</mat-option>
-                <mat-option *ngIf="!selectedFilter || selectedFilter === 'author'" value="author">Author</mat-option>
-              </mat-select>
-            </mat-form-field>         
+          <mat-form-field>
+            <mat-label>Sort by</mat-label>
+            <mat-select [(value)]="selectedFilter" (selectionChange)="filter($event.value)">
+              <mat-select-trigger>
+                {{selectedFilter}}
+                <span *ngIf="selectedFilter" class="cross-icon">
+                  <mat-icon (click)="$event.stopPropagation(); clearFilter()">close</mat-icon>
+                </span>
+              </mat-select-trigger>
+              <mat-option *ngIf="!selectedFilter || selectedFilter === 'date'" value="date">Date</mat-option>
+              <mat-option *ngIf="!selectedFilter || selectedFilter === 'author'" value="author">Author</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
-      <ng-container *ngFor="let p of filteredItems; index as i">
+      <ng-container *ngFor="let p of filteredItems">
         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
           <div class="card h-100" style="cursor: pointer;" (click)="viewPost(p)">
             <img [src]="p.image" class="card-img-top img-fluid" alt="...">
             <div class="card-body">
-              <h5 class="card-title">{{p.title | titlecase}}</h5>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h5 class="card-title">{{p.title | titlecase}}</h5>
+                <button class="btn btn-icon" (click)="bookmarkPost(p, $event);"><i class="fa fa-bookmark"
+                    style="color: grey;"></i></button>
+              </div>
 
               <span *ngIf="!showMore[p.pid]">{{ (p.content.length > 100 ? p.content.substr(0, 100) + '...' : p.content)
                 }}</span>
               <button class="see-more" *ngIf="!showMore[p.pid]" (click)="toggleShowMore(p.pid, $event)">See
                 More</button>
-
               <p *ngIf="showMore[p.pid]">{{ p.content }}</p>
               <button class="see-more" *ngIf="showMore[p.pid]" (click)="toggleShowMore(p.pid, $event)">See Less</button>
-              <!-- <p *ngIf="!showMore[p.pid]">{{ (p.content.length > 100 ? p.content.substr(0, 100) + '...' : p.content) }}</p>
-              <p *ngIf="showMore[p.pid]">{{ p.content }}</p>
-              <button class="see-more" (click)="toggleShowMore(p.pid, $event)">
-                {{ showMore[p.pid.toString()] ? 'See Less' : 'See More' }}
-              </button> -->
-              <!-- <p><span class="post-date">Posted by {{p.author}} at {{ p.createdAt | date: 'dd/MM/yyyy hh:mm a' }}</span></p>
-              {{ p.likes }} Likes
-              <button class="btn btn-primary" (click)="likePost(p, $event);"><i
-                  class="fa fa-thumbs-up"></i> Like</button> -->
               <div class="likes-post-date">
                 <div>
                   <button class="btn btn-icon" [class.liked]="p.isLiked" (click)="likePost(p, $event);"><i
@@ -60,7 +54,6 @@
             </div>
           </div>
         </div>
-        <!-- <div *ngIf="(i+1)%2===0" class="w-100"></div> -->
       </ng-container>
     </div>
 

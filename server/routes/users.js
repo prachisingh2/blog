@@ -61,6 +61,7 @@ router.get('/logout', (req, res) => {
   });
 });
 
+//Users List
 router.get('/me', (req, res) => {
   if (req.session.userId) {
     con.query('SELECT * FROM users WHERE id = ?', [req.session.userId], (err, users) => {
@@ -74,6 +75,20 @@ router.get('/me', (req, res) => {
   } else {
     res.status(401).send({ message: 'Not logged in' });
   }
+});
+
+//Get all bookmarked posts for a user
+router.get('/:userId/bookmarks', (req, res) => {
+  const userId = req.params.userId;
+  //console.log(userId);
+  con.query(
+    'SELECT * FROM posts INNER JOIN bookmarks ON posts.pid = bookmarks.postId WHERE bookmarks.userId = ?',
+    [userId],
+    (err, result) => {
+      if (err) throw err;
+      res.send(result);
+    }
+  );
 });
 
 module.exports = router;

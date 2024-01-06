@@ -39,7 +39,6 @@ export class NewPostComponent implements OnInit {
 
   ngOnInit(): void {
     this.formValue = this.formbuilder.group({
-      pid: [new Date().valueOf()],
       author: [''],
       title: [''],
       content: [''],
@@ -49,14 +48,12 @@ export class NewPostComponent implements OnInit {
   }
   
   addNewPost(form: NgForm) {
-    this.postObj.pid = new Date().valueOf();
     this.postObj.title = form.value.title;
     this.postObj.content = form.value.content;
     this.postObj.image = form.value.image;
     let date = new Date();
     let formattedDate = date.toISOString().slice(0, 19).replace('T', ' ');
     this.postObj.createdAt = formattedDate;
-  //  this.postObj.userid = this.authService.currentUserId;
 
     if (this.paramId) {
       this.restApi.updatePost(this.postObj, +this.paramId).subscribe(res => {

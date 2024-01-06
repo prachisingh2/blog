@@ -46,6 +46,13 @@ export class AuthService {
 
   getCurrentUser() {
     return this.http.get<any>("http://localhost:3000/users/me", { withCredentials: true });
-    
+
+  }
+
+  getBookmarkedPosts(userId: number) {
+    return this.http.get<any>(`http://localhost:3000/users/${userId}/bookmarks`, { withCredentials: true })
+      .pipe(map((res: any) => {
+        return res;
+      }));
   }
 }

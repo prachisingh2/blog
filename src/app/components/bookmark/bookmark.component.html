@@ -1,0 +1,25 @@
+<app-navbar class="fixed-top"></app-navbar>
+<div *ngIf="bookmarkedPosts.length > 0; else noBookmarks">
+  <div *ngFor="let post of bookmarkedPosts">
+    <div class="col-12 mb-4">
+      <div class="card h-100" style="cursor: pointer;" (click)="viewPost(post)">
+        <img [src]="post.image" class="card-img-top img-fluid" alt="...">
+        <div class="card-body">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h5 class="card-title">{{post.title | titlecase}}</h5>
+            <button class="btn btn-icon" (click)="removeBookmarkPost(post.pid);"><i class="fa fa-bookmark"
+                style="color: grey;"></i></button>
+          </div>
+          <p class="card-text">{{post.content}}</p>
+          <div class="post-info">
+            <p class="post-date mb-0">Posted by {{post.author}} at {{ post.createdAt | date: 'dd/MM/yyyy hh:mm a' }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #noBookmarks>
+  <h4>No bookmarked posts</h4>
+</ng-template>
