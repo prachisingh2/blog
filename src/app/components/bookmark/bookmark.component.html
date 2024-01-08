@@ -7,7 +7,7 @@
         <div class="card-body">
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <h5 class="card-title">{{post.title | titlecase}}</h5>
-            <button class="btn btn-icon" (click)="removeBookmarkPost(post.pid);"><i class="fa fa-bookmark"
+            <button class="btn btn-icon" (click)="removeBookmarkPost($event, post.pid);"><i class="fa fa-bookmark"
                 style="color: grey;"></i></button>
           </div>
           <p class="card-text">{{post.content}}</p>

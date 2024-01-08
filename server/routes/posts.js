@@ -106,4 +106,22 @@ router.post('/:postId/unlike', (req, res) => {
     });
 });
 
+//create a new comment
+router.post('/:pid/comments', (req, res) => {
+    const commentData = req.body;
+    commentData.post_id = req.params.pid;
+    con.query('INSERT INTO comments SET ?', commentData, (err, result) => {
+        if (err) throw err;
+        res.send(result);
+    });
+});
+
+// Get all comments for a post
+router.get('/:pid/comments', (req, res) => {
+    con.query('SELECT * FROM comments WHERE post_id = ?', [req.params.pid], (err, result) => {
+        if (err) throw err;
+        res.send(result);
+    });
+});
+
 module.exports = router;

@@ -1,13 +1,40 @@
 <app-navbar class="fixed-top"></app-navbar>
-<div *ngIf="post">
-  <div class="background-image" [style.backgroundImage]="'url(' + post.image + ')'"></div>
-  <div class="post-container">
-    <img [src]="post.image" class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title">{{post.title| titlecase}}</h5>
-      <p class="card-text">{{post.content}}</p>
-      <p>Posted by {{post.author}} at <span class="post-date">{{ post.createdAt | date: 'dd/MM/yyyy' }}</span></p>
+<div class="container">
+  <div *ngIf="post" class="row">
+    <div class="col-12 col-md-8">
+      <div class="background-image" [style.backgroundImage]="'url(' + post.image + ')'"></div>
+      <div class="post-container">
+        <img [src]="post.image" class="card-img-top img-fluid" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{post.title| titlecase}}</h5>
+          <p class="card-text">{{post.content}}</p>
+          <p>Posted by {{post.author}} at <span class="post-date">{{ post.createdAt | date: 'dd/MM/yyyy' }}</span></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-4">
+      <button class="btn btn-dark btn-md" (click)="toggleComments()"><i class="fa fa-comment comment-icon"
+          aria-hidden="true"></i></button>
+      <div *ngIf="showComments">
+        <div *ngFor="let comment of comments" class="comment-section">
+
+          <div class="comment-author">{{ comment.email }}</div>
+          <div class="comment-text">{{ comment.comment }}</div>
+          <button class="btn btn-transparent btn-sm" (click)="showReplyForm(comment.id)"> Reply </button>
+          <button class="btn btn-transparent btn-sm" (click)="toggleReplies(comment.id)"> See Replies </button>
+          <ng-container *ngFor="let reply of comments">
+            <div class="reply-section" *ngIf="reply.parent_comment_id === comment.id && comment.showReplies">
+              <p><strong>{{ reply.email }}</strong>: <span class="comment-text">{{ reply.comment }}</span>
+              </p>
+            </div>
+          </ng-container>
+          <form *ngIf="replyFormId === comment.id" (submit)="createComment(comment.id)">
+            <input [(ngModel)]="newComment" placeholder="Your reply" name="newComment" class="form-control">
+            <button type="submit" class="btn btn-transparent mt-2">Post Reply</button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
-  <br><br>
 </div>
+<br><br>

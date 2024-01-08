@@ -42,7 +42,7 @@ export class ApiService {
   }
 
   getSinglePost(pid: number) {
-   // console.log('PID being sent:', pid);
+    // console.log('PID being sent:', pid);
     return this.http.get<any>("http://localhost:3000/posts/" + pid)
       .pipe(map((res: any) => {
         return res;
@@ -59,6 +59,22 @@ export class ApiService {
   getMyPost(authorid: number) {
     //console.log('Author ID being sent:', authorid);
     return this.http.get<any>("http://localhost:3000/author/" + authorid)
+      .pipe(map((res: any) => {
+        return res;
+      }));
+  }
+
+  // Add comment
+  addComment(pid: number, commentData: any) {
+    return this.http.post<any>(`http://localhost:3000/posts/${pid}/comments`, commentData)
+      .pipe(map((res: any) => {
+        return res;
+      }));
+  }
+
+  // Get comments
+  getComments(pid: number) {
+    return this.http.get<any>(`http://localhost:3000/posts/${pid}/comments`)
       .pipe(map((res: any) => {
         return res;
       }));

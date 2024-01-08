@@ -29,9 +29,11 @@ export class BookmarkComponent implements OnInit {
     });
   }
 
-  removeBookmarkPost(postId: number | undefined): void {
+  removeBookmarkPost(event: any, postId: number | undefined): void {
+    event.stopPropagation();
     if (postId !== undefined) {
       this.postService.removeBookmarkPost(postId).subscribe(() => {
+        alert("Post unbookmarked");
         this.getBookmarkedPosts();
       });
     }

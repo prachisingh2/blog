@@ -19,7 +19,7 @@ export class PostService {
   addBookmark(postId: number): Observable<PostModel> {
     return this.http.post<PostModel>(`${this.url}/${postId}/bookmark`, {}, { withCredentials: true });
   }
-  
+
   removeBookmarkPost(postId: number): Observable<PostModel> {
     return this.http.delete<PostModel>(`${this.url}/${postId}/bookmarked`, { withCredentials: true });
   }
@@ -38,6 +38,7 @@ export class PostService {
   unlikePost(postId: number): Observable<any> {
     return this.http.post<any>(`${this.url}/${postId}/unlike`, {}, { withCredentials: true });
   }
+
   // getSinglePostByTitle(title: string) {
   //   return this.http.get<any>(`http://localhost:3000/posts/?title=${title}`)
   //     .pipe(map((res: any) => {

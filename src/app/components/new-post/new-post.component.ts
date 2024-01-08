@@ -54,6 +54,7 @@ export class NewPostComponent implements OnInit {
     let date = new Date();
     let formattedDate = date.toISOString().slice(0, 19).replace('T', ' ');
     this.postObj.createdAt = formattedDate;
+    this.postObj.userid = this.authService.getEmail() ;
 
     if (this.paramId) {
       this.restApi.updatePost(this.postObj, +this.paramId).subscribe(res => {
