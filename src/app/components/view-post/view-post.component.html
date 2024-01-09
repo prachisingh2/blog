@@ -6,18 +6,25 @@
       <div class="post-container">
         <img [src]="post.image" class="card-img-top img-fluid" alt="...">
         <div class="card-body">
-          <h5 class="card-title">{{post.title| titlecase}}</h5>
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title">{{post.title| titlecase}}</h5>
+            <button class="btn btn-dark btn-md" (click)="toggleComments()"><i class="fa fa-comment comment-icon"
+                aria-hidden="true"></i></button>
+          </div>
           <p class="card-text">{{post.content}}</p>
           <p>Posted by {{post.author}} at <span class="post-date">{{ post.createdAt | date: 'dd/MM/yyyy' }}</span></p>
+          <select #langSelect (change)="translatePost('en', langSelect.value)">
+            <option *ngFor="let lang of languages" [value]="lang.code">{{ lang.label }}</option>
+          </select>
+          <button class="btn btn-dark btn-md" (click)="translatePost('en', langSelect.value)">
+            <i class="fa fa-language" aria-hidden="true"></i></button>
         </div>
       </div>
     </div>
+
     <div class="col-12 col-md-4">
-      <button class="btn btn-dark btn-md" (click)="toggleComments()"><i class="fa fa-comment comment-icon"
-          aria-hidden="true"></i></button>
       <div *ngIf="showComments">
         <div *ngFor="let comment of comments" class="comment-section">
-
           <div class="comment-author">{{ comment.email }}</div>
           <div class="comment-text">{{ comment.comment }}</div>
           <button class="btn btn-transparent btn-sm" (click)="showReplyForm(comment.id)"> Reply </button>

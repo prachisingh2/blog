@@ -1,5 +1,5 @@
 const express = require('express');
-//const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 const mysql = require('mysql');
 const router = express.Router();
 
@@ -20,15 +20,15 @@ router.get('/', (req, res) => {
 
 router.post('/register', async (req, res) => {
   const { name, email, password } = req.body;
-  // const hashedPassword = await bcrypt.hash(password, 10);
-  con.query('INSERT INTO users (name, email, password) VALUES (?, ?, ?)', [name, email, password], (err, result) => {
+  const hashedPassword = await bcrypt.hash(password, 10);
+  con.query('INSERT INTO users (name, email, password) VALUES (?, ?, ?)', [name, email, hashedPassword], (err, result) => {
     if (err) throw err;
     res.send(result);
   });
 });
 router.post('/login', (req, res) => {
   const { email, password } = req.body;
-  con.query('SELECT * FROM users WHERE email = ?', [email], (err, users) => {
+  con.query('SELECT * FROM users WHERE email = ?', [email], async(err, users) => {
     if (err) {
       console.log(err);
       res.status(500).send({ message: 'Internal server error' });
@@ -36,7 +36,8 @@ router.post('/login', (req, res) => {
       if (users.length > 0) {
         // console.log("Logged in");
         const user = users[0];
-        if (password === user.password) {
+        const match = await bcrypt.compare(password, user.password);
+        if (match) {
           req.session.userId = user.id;
           res.send({ message: 'Logged in', user });
         } else {
