@@ -24,6 +24,12 @@
               <mat-option *ngIf="!selectedFilter || selectedFilter === 'author'" value="author">Author</mat-option>
             </mat-select>
           </mat-form-field>
+          <mat-form-field>
+            <mat-label>Filter by Category</mat-label>
+            <mat-select [(value)]="selectedCategory" (selectionChange)="filterByCategory($event.value)">
+              <mat-option *ngFor="let category of categoryList" [value]="category.name">{{category.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <ng-container *ngFor="let p of filteredItems">
@@ -33,6 +39,7 @@
             <div class="card-body">
               <div style="display: flex; justify-content: space-between; align-items: center;">
                 <h5 class="card-title">{{p.title | titlecase}}</h5>
+                <p *ngFor="let c of categoryList" [hidden]="c.id != p.category_id" class="card-category">{{c.name}}</p>
                 <button class="btn btn-icon" (click)="bookmarkPost(p, $event);"><i class="fa fa-bookmark"
                     style="color: grey;"></i></button>
               </div>

@@ -3,6 +3,7 @@ export class PostModel {
     author?:any;
     authorid?:number;
     title?:string;
+    category?:string;
     content?:string;
     image?:string;
     createdAt?:string;

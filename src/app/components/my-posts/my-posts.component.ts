@@ -60,6 +60,7 @@ export class MyPostsComponent implements OnInit {
       this.restApi.deletePost(i).subscribe(res => {
         this.getMyPost();
         alert("Post Deleted");
+        this.router.navigate(['/my-posts']);
       });
     }
   }

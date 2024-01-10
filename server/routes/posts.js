@@ -9,11 +9,10 @@ const con = mysql.createConnection({
     database: 'test'
 });
 
-//Get a single post
+// Get a single post
 router.get('/:pid', (req, res) => {
     const pid = req.params.pid;
-    //console.log("Post id:",pid);
-    con.query('SELECT * FROM posts WHERE pid = ?', [pid], (err, post) => {
+    con.query('SELECT posts.*, categories.name as category FROM posts LEFT JOIN categories ON posts.category_id = categories.id WHERE pid = ?', [pid], (err, post) => {
         if (err) {
             console.log(err);
             res.status(500).send({ message: 'Internal server error' });
@@ -42,7 +41,7 @@ router.put('/:pid', (req, res) => {
 
 // Get all posts
 router.get('/', (req, res) => {
-    con.query('SELECT * FROM posts', (err, result) => {
+    con.query('SELECT posts.*, categories.name as category FROM posts LEFT JOIN categories ON posts.category_id = categories.id', (err, result) => {
         if (err) throw err;
         res.send(result);
     });
@@ -51,9 +50,9 @@ router.get('/', (req, res) => {
 // Create a new post
 router.post('/', (req, res) => {
     if (req.session.userId) {
-        const post = req.body;
-        post.authorid = req.session.userId;
         const postData = req.body;
+        postData.authorid = req.session.userId;
+        postData.category_id = req.body.category_id;
         con.query('INSERT INTO posts SET ?', postData, (err, result) => {
             if (err) throw err;
             res.send(result);
@@ -121,6 +120,33 @@ router.get('/:pid/comments', (req, res) => {
     con.query('SELECT * FROM comments WHERE post_id = ?', [req.params.pid], (err, result) => {
         if (err) throw err;
         res.send(result);
+    });
+});
+
+// Get posts by category name
+router.get('/category/:categoryName', (req, res) => {
+    const categoryName = req.params.categoryName;
+    console.log(categoryName);
+    con.query('SELECT posts.*, categories.name as category FROM posts LEFT JOIN categories ON posts.category_id = categories.id WHERE categories.name = ?', [categoryName], (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send({ message: 'Internal server error' });
+        } else {
+            res.send(result);
+        }
+    });
+});
+ 
+// Get all categories
+router.get('/category', (req, res) => {
+    con.query('SELECT * FROM categories', (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send({ message: 'Internal server error' });
+        } else {
+            console.log('Elements', result);
+            res.send(result);
+        }
     });
 });
 

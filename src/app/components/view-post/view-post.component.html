@@ -31,7 +31,7 @@
           <button class="btn btn-transparent btn-sm" (click)="toggleReplies(comment.id)"> See Replies </button>
           <ng-container *ngFor="let reply of comments">
             <div class="reply-section" *ngIf="reply.parent_comment_id === comment.id && comment.showReplies">
-              <p><strong>{{ reply.email }}</strong>: <span class="comment-text">{{ reply.comment }}</span>
+              <p class="comment-author"><strong>{{ reply.email }}</strong>: <span class="comment-text">{{ reply.comment }}</span>
               </p>
             </div>
           </ng-container>

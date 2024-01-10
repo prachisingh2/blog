@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { UserService } from '../../services/user.service';
 import { PostService } from '../../services/post.service';
 import { AuthService } from '../../services/auth.service';
+import { CategoryService } from '../../services/category.service';
 
 @Component({
   selector: 'app-home',
@@ -18,13 +19,16 @@ export class HomeComponent implements OnInit {
   searchText: any;
   filteredItems: any;
   bookmarkedPosts: PostModel[] = [];
+  categoryList: any = [];
+  selectedCategory: string | null = null;
 
   constructor(private restApi: ApiService,
     private router: Router,
     private http: HttpClient,
     private userService: UserService,
     private postService: PostService,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private categoryService: CategoryService) {
 
     this.username = this.userService.getUser();
     if (!this.username) {
@@ -43,6 +47,8 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.getAllPost();
     this.getBookmarkedPosts();
+    this.getCategories();
+    
   }
   isLiked = false;
 
@@ -147,5 +153,33 @@ export class HomeComponent implements OnInit {
 
   viewPost(post: PostModel) {
     this.router.navigate(['/view-post', post.pid]);
+  }
+
+  getCategories(): void {
+    this.categoryService.getCategoryList().subscribe(
+      (data: any) => {
+        this.categoryList = data;
+        console.log('CategoryElements:',this.categoryList);
+      },
+      (error) => {
+        console.error('Error:', error);
+      }
+    );
+  }
+
+  filterByCategory(category: string) {
+    this.selectedCategory = category;
+    if (!category) {
+      this.filteredItems = this.postData;
+    } else {
+      this.categoryService.getPostsByCategory(category).subscribe(
+        (data: any) => {
+          this.filteredItems = data;
+        },
+        (error) => {
+          console.error('Error:', error);
+        }
+      );
+    }
   }
 }
