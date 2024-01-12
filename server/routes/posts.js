@@ -139,12 +139,11 @@ router.get('/category/:categoryName', (req, res) => {
  
 // Get all categories
 router.get('/category', (req, res) => {
-    con.query('SELECT * FROM categories', (err, result) => {
+    con.query('SELECT cname FROM categories', (err, result) => {
         if (err) {
             console.log(err);
             res.status(500).send({ message: 'Internal server error' });
         } else {
-            console.log('Elements', result);
             res.send(result);
         }
     });
