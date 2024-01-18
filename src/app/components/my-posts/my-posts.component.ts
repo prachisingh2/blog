@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
-import { PostModel } from '../../interfaces/post-model';
 
 @Component({
   selector: 'app-my-posts',
@@ -14,15 +13,14 @@ export class MyPostsComponent implements OnInit {
 
   constructor(
     private restApi: ApiService,
-    private router: Router,
+    private route: Router,
     private authService: AuthService) {
     this.authService.getCurrentUser().subscribe(user => {
       if (!user) {
-        this.router.navigate(['login']);
-      }
-    }, error => {
-      console.log(error);
-    });
+        this.route.navigate(['login']);
+      }}, error => {
+        console.log(error);
+      });
   }
 
   ngOnInit(): void {
@@ -45,13 +43,9 @@ export class MyPostsComponent implements OnInit {
           // console.log('Fetched Posts:', this.myPost);
         });
       } else {
-        this.router.navigate(['login']);
+        this.route.navigate(['login']);
       }
     });
-  }
-
-  viewPost(post: PostModel) {
-    this.router.navigate(['/view-post', post.pid]);
   }
 
   deletePost(i: number) {
@@ -60,9 +54,7 @@ export class MyPostsComponent implements OnInit {
       this.restApi.deletePost(i).subscribe(res => {
         this.getMyPost();
         alert("Post Deleted");
-        this.router.navigate(['/my-posts']);
-      });
+      })
     }
   }
-
 }

@@ -1,66 +1,63 @@
 <app-navbar class="fixed-top"></app-navbar>
-<div class="container mt-5">
+<div class="container">
     <section class="mb-4">
         <h2 class="h1-responsive font-weight-bold text-center my-4 contact">Contact us</h2>
         <p class="text-center w-responsive mx-auto mb-5">Do you have any questions? Please do not hesitate to contact us
             directly. Our team will come back to you within
             a matter of hours to help you.</p>
 
-        <div class="row justify-content-center">
-            <div class="col-md-8 mb-5">
-                <div class="card bg-light">
-                    <div class="card-body">
-                        <form id="contact-form" name="contact-form" #f="ngForm" (ngSubmit)="newContact(f)">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="md-form mb-0">
-                                        <label for="name" class="">Your name</label>
-                                        <input #name="ngModel" ngModel type="text" id="name" name="name"
-                                            class="form-control" required>
+        <div class="row">
+            <div class="col-md-9 mb-md-0 mb-5">
+                <form id="contact-form" name="contact-form" #f="ngForm" (ngSubmit)="newContact(f)">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="md-form mb-0">
+                                <label for="name" class="">Your name</label>
+                                <input #name="ngModel" ngModel type="text" id="name" name="name" class="form-control"
+                                    required>
 
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="md-form mb-0">
-                                        <label for="email" class="">Your email</label>
-                                        <input #email="ngModel" ngModel type="email" id="email" name="email"
-                                            class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="md-form mb-0">
+                                <label for="email" class="">Your email</label>
+                                <input #email="ngModel" ngModel type="email" id="email" name="email"
+                                    class="form-control" required>
 
-                                    </div>
-                                </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="md-form mb-0">
-                                        <label for="subject" class="">Subject</label>
-                                        <input #subject="ngModel" ngModel type="text" id="subject" name="subject"
-                                            class="form-control" required>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="md-form">
-                                        <label for="message">Your message</label>
-                                        <textarea #message="ngModel" ngModel type="text" id="message" name="message"
-                                            rows="2" class="form-control md-textarea" required></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="text-center text-md-left">
-                                <button class="btn btn-primary">Send</button>
-                            </div>
-                        </form>
+                        </div>
                     </div>
-                </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="md-form mb-0">
+                                <label for="subject" class="">Subject</label>
+                                <input #subject="ngModel" ngModel type="text" id="subject" name="subject"
+                                    class="form-control" required>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="md-form">
+                                <label for="message">Your message</label>
+                                <textarea #message="ngModel" ngModel type="text" id="message" name="message" rows="2"
+                                    class="form-control md-textarea" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="text-center text-md-left">
+                        <button class="btn btn-primary">Send</button>
+                    </div>
+                </form>
+                <div class="status"></div>
             </div>
+
         </div>
     </section>
 </div>
-
-<footer class="bottom text-center bg-dark text-white p-5">
+<footer class="text-center">
     <div class="footer-item">
         <p>Bhopal, Madhya Pradesh, India</p>
     </div>

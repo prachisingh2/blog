@@ -5,8 +5,6 @@ import { ApiService } from '../../services/api.service';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from '../../services/user.service';
 import { PostService } from '../../services/post.service';
-import { AuthService } from '../../services/auth.service';
-import { CategoryService } from '../../services/category.service';
 
 @Component({
   selector: 'app-home',
@@ -18,17 +16,12 @@ export class HomeComponent implements OnInit {
   username: any;
   searchText: any;
   filteredItems: any;
-  bookmarkedPosts: PostModel[] = [];
-  categoryList: any = [];
-  selectedCategory: string | null = null;
 
   constructor(private restApi: ApiService,
     private router: Router,
     private http: HttpClient,
     private userService: UserService,
-    private postService: PostService,
-    private authService: AuthService,
-    private categoryService: CategoryService) {
+    private postService: PostService) {
 
     this.username = this.userService.getUser();
     if (!this.username) {
@@ -46,9 +39,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllPost();
-    this.getBookmarkedPosts();
-    this.getCategories();
-    
   }
   isLiked = false;
 
@@ -87,15 +77,15 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  selectedFilter: string | null = null;
+  selectedFilter: string | null=null;
   filter(filterOption: string) {
     this.selectedFilter = filterOption;
     if (filterOption === 'date') {
-      this.filteredItems = [...this.filteredItems].sort((a: any, b: any) =>
+      this.filteredItems = [...this.filteredItems].sort((a: any, b: any) => 
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );
     } else if (filterOption === 'author') {
-      this.filteredItems = [...this.filteredItems].sort((a: any, b: any) =>
+      this.filteredItems = [...this.filteredItems].sort((a: any, b: any) => 
         a.author.localeCompare(b.author)
       );
     }
@@ -105,81 +95,28 @@ export class HomeComponent implements OnInit {
     this.selectedFilter = null;
     this.filteredItems = [...this.postData];
   }
-
+  
   likePost(post: PostModel, event: any): void {
     event.stopPropagation();
     post.isLiked = !post.isLiked;
-    if (post.pid !== undefined) {
-      if (post.isLiked) {
-        post.likes = (post.likes ?? 0) + 1;
-        this.postService.likePost(post.pid).subscribe(() => {
-          console.log('Updated likes for post');
-        });
-      }
-      else {
-        post.likes = (post.likes ?? 0) - 1;
-        this.postService.unlikePost(post.pid).subscribe(() => {
-          console.log('Updated likes for post');
-        });
-      }
+    if (post.isLiked) {
+      post.likes = (post.likes ?? 0) + 1;  // if post.likes is undefined, it will consider it as 0
     }
-  }
-
-  bookmarkPost(post: PostModel, event: any): void {
-    event.stopPropagation();
-    if (post.pid !== undefined) {
-      if (post.bookmarked) {
-        this.postService.removeBookmarkPost(post.pid).subscribe(() => {
-          alert("Post unbookmarked");
-          post.bookmarked = false;
-          this.getBookmarkedPosts();
-        });
-      } else {
-        this.postService.addBookmark(post.pid).subscribe(() => {
-          alert("Post bookmarked");
-          post.bookmarked = true;
-          this.getBookmarkedPosts();
-        });
-      }
+    else {
+      post.likes = (post.likes ?? 0) - 1;  // if post.likes is undefined, it will consider it as 0
     }
-  }
+    // const user = this.userService.getUser();
+    // const userId = user ? user.id : null;
 
-  getBookmarkedPosts() {
-    const userId = this.userService.getUserId();
-    this.authService.getBookmarkedPosts(userId).subscribe((posts: PostModel[]) => {
-      this.bookmarkedPosts = posts;
-    });
+    // if (post.pid !== undefined && userId) {
+    //   this.postService.likePost(post.pid.toString(), userId.toString()).subscribe((updatedPost: PostModel) => {
+    //     post.likes = updatedPost.likes ? updatedPost.likes : 0;
+    //     post.likedBy = updatedPost.likedBy;
+    //   });
+    // }
   }
 
   viewPost(post: PostModel) {
     this.router.navigate(['/view-post', post.pid]);
-  }
-
-  getCategories(): void {
-    this.categoryService.getCategoryList().subscribe(
-      (data: any) => {
-        this.categoryList = data;
-        console.log('CategoryElements:',this.categoryList);
-      },
-      (error) => {
-        console.error('Error:', error);
-      }
-    );
-  }
-
-  filterByCategory(category: string) {
-    this.selectedCategory = category;
-    if (!category) {
-      this.filteredItems = this.postData;
-    } else {
-      this.categoryService.getPostsByCategory(category).subscribe(
-        (data: any) => {
-          this.filteredItems = data;
-        },
-        (error) => {
-          console.error('Error:', error);
-        }
-      );
-    }
   }
 }

@@ -3,10 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
+import { LikedPostsComponent } from './components/liked-posts/liked-posts.component';
 import { ViewPostComponent } from './components/view-post/view-post.component';
 import { NewPostComponent } from './components/new-post/new-post.component';
 import { MyPostsComponent } from './components/my-posts/my-posts.component';
-import { BookmarkComponent } from './components/bookmark/bookmark.component';
 
 const routes: Routes = [
   {
@@ -22,25 +22,25 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'new-post',
-    component: NewPostComponent
+    path:'liked-posts',
+    component: LikedPostsComponent
+  },
+  { 
+    path: 'new-post', 
+    component: NewPostComponent 
   },
   {
     path: 'edit-post/:pid',
     component: NewPostComponent
   },
   {
-    path: 'my-posts',
+    path:'my-posts',
     component: MyPostsComponent
   },
-  {
-    path: 'my-bookmarks',
-    component: BookmarkComponent
-  },
-  {
-    path: 'view-post/:pid',
-    component: ViewPostComponent
-  },
+  { 
+    path: 'view-post/:pid', 
+    component: ViewPostComponent 
+  }, 
   {
     path: '', redirectTo: 'home', pathMatch: 'full'
   }

@@ -17,8 +17,8 @@ import { HomeComponent } from './components/home/home.component';
 import { NewPostComponent } from './components/new-post/new-post.component';
 import { ContactFormComponent } from './components/contact-form/contact-form.component';
 import { MyPostsComponent } from './components/my-posts/my-posts.component';
+import { LikedPostsComponent } from './components/liked-posts/liked-posts.component';
 import { ViewPostComponent } from './components/view-post/view-post.component';
-import { BookmarkComponent } from './components/bookmark/bookmark.component';
 
 @NgModule({
   declarations: [
@@ -30,8 +30,8 @@ import { BookmarkComponent } from './components/bookmark/bookmark.component';
     NewPostComponent,
     ContactFormComponent,
     MyPostsComponent,
-    ViewPostComponent,
-    BookmarkComponent
+    LikedPostsComponent,
+    ViewPostComponent
   ],
   imports: [
     BrowserModule,

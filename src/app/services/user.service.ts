@@ -22,7 +22,7 @@ export class UserService {
     return this.user;
   }
 
-  getUserId(): number {
+  getUserId(): string {
     return this.user ? this.user.id : null;
   }
 

@@ -3,12 +3,11 @@ export class PostModel {
     author?:any;
     authorid?:number;
     title?:string;
-    category?:string;
     content?:string;
     image?:string;
     createdAt?:string;
     userid?:any;
     likes?:number;
     isLiked?: boolean;
-    bookmarked?: boolean;
+    likedBy?: string[];
 }

@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -47,19 +46,6 @@ export class AuthService {
 
   getCurrentUser() {
     return this.http.get<any>("http://localhost:3000/users/me", { withCredentials: true });
-
-  }
-
-  getEmail(): Observable<string> {
-    return this.getCurrentUser().pipe(
-      map(user => user.email)
-    );
-  }
-
-  getBookmarkedPosts(userId: number) {
-    return this.http.get<any>(`http://localhost:3000/users/${userId}/bookmarks`, { withCredentials: true })
-      .pipe(map((res: any) => {
-        return res;
-      }));
+    
   }
 }

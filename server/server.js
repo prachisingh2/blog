@@ -1,6 +1,5 @@
 const express = require('express');
 const session = require('express-session');
-const axios = require('axios'); // Make sure Axios is installed
 const app = express();
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -26,22 +25,6 @@ app.use(cors({
 app.use('/users', userRoutes);
 app.use('/posts', postRoutes);
 app.use('/author', authorRoutes)
-
-// Add this route for translation
-app.post('/translate', async (req, res) => {
-  try {
-    const response = await axios.post('https://rapidapi.com/oyagev/api/onehourtranslation/', req.body, {
-      headers: {
-        'Content-Type': 'application/octet-stream',
-        'X-RapidAPI-Host': 'community-onehourtranslation.p.rapidapi.com',
-        'X-RapidAPI-Key': 'aa3de6422cmsh8cc276ac29daa6dp153e33jsn01f9126585db'
-      }
-    });
-    res.send(response.data);
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
-});
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');

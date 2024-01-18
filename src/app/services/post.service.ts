@@ -8,37 +8,32 @@ import { catchError, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class PostService {
-  private url = 'http://localhost:3000/posts';
+
   constructor(private http: HttpClient) { }
 
   getPosts(): Observable<PostModel[]> {
-    return this.http.get<PostModel[]>(this.url);
+    return this.http.get<PostModel[]>('http://localhost:3000/posts');
   }
 
-
-  addBookmark(postId: number): Observable<PostModel> {
-    return this.http.post<PostModel>(`${this.url}/${postId}/bookmark`, {}, { withCredentials: true });
-  }
-
-  removeBookmarkPost(postId: number): Observable<PostModel> {
-    return this.http.delete<PostModel>(`${this.url}/${postId}/bookmarked`, { withCredentials: true });
-  }
-
+  // likePost(postId: string, userId: string): Observable<any> {
+  //   return this.http.get<PostModel>(`http://localhost:3000/posts/${postId}`).pipe(
+  //     switchMap(post => {
+  //       post.likes = post.likes ? post.likes + 1 : 1;
+  //       post.likedBy = post.likedBy ? [...post.likedBy, userId] : [userId];
+  //       return this.http.put(`http://localhost:3000/posts/${postId}`, post);
+  //     }),
+  //     catchError(error => {
+  //       console.error('Error in likePost:', error);
+  //       throw error;
+  //     })
+  //   );
+  // }
   getSinglePost(pid: number) {
-    return this.http.get<any>(`${this.url}/${pid}`)
+    return this.http.get<any>("http://localhost:3000/posts/" + pid)
       .pipe(map((res: any) => {
         return res;
       }))
   }
-
-  likePost(postId: number): Observable<any> {
-    return this.http.post<any>(`${this.url}/${postId}/like`, {}, { withCredentials: true });
-  }
-
-  unlikePost(postId: number): Observable<any> {
-    return this.http.post<any>(`${this.url}/${postId}/unlike`, {}, { withCredentials: true });
-  }
-
   // getSinglePostByTitle(title: string) {
   //   return this.http.get<any>(`http://localhost:3000/posts/?title=${title}`)
   //     .pipe(map((res: any) => {
