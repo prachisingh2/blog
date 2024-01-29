@@ -5,6 +5,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PostModel } from '../../interfaces/post-model';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
+import { PostService } from '../../services/post.service';
+import { HttpClient } from '@angular/common/http';
+import { concatMap, map } from 'rxjs';
 
 @Component({
   selector: 'app-new-post',
@@ -16,12 +19,19 @@ export class NewPostComponent implements OnInit {
   postObj: PostModel = new PostModel();
   post: PostModel = {};
   paramId;
+  categories: any[] = [];
+  filteredItems: any;
+  categoryList: any = [];
+  selectedCategory: any;
 
-  constructor(private formbuilder: FormBuilder,
+  constructor(private http: HttpClient,
+    private formbuilder: FormBuilder,
     private restApi: ApiService,
     private route: Router,
     private activatedRouter: ActivatedRoute,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private postService: PostService,
+    private apiService: ApiService) {
     this.paramId = this.activatedRouter.snapshot.paramMap.get('pid');
     this.authService.getCurrentUser().subscribe(user => {
       if (!user) {
@@ -30,50 +40,92 @@ export class NewPostComponent implements OnInit {
         this.postObj.author = user.name;
       }
     });
-    
+
     if (this.paramId) {
-      console.log('paramId:', this.paramId);
-      this.restApi.getSinglePost(+this.paramId).subscribe(res => this.post = res[0]);
+      //console.log('paramId:', this.paramId);
+      this.restApi.getSinglePost(+this.paramId).subscribe(res => this.post = res);
     }
   }
 
   ngOnInit(): void {
+    this.post = {category_id: undefined};
     this.formValue = this.formbuilder.group({
-      pid: [new Date().valueOf()],
       author: [''],
       title: [''],
       content: [''],
+      category_id: [''],
       image: [''],
       createdAt: [new Date()]
-    })
+    });
+    this.getCategories();
   }
-  
-  addNewPost(form: NgForm) {
-    this.postObj.pid = new Date().valueOf();
-    this.postObj.title = form.value.title;
-    this.postObj.content = form.value.content;
-    this.postObj.image = form.value.image;
-    let date = new Date();
-    let formattedDate = date.toISOString().slice(0, 19).replace('T', ' ');
-    this.postObj.createdAt = formattedDate;
-  //  this.postObj.userid = this.authService.currentUserId;
 
-    if (this.paramId) {
-      this.restApi.updatePost(this.postObj, +this.paramId).subscribe(res => {
-        alert("Post updated successfully");
-        this.route.navigate(["/my-posts"]);
-      });
+  addNewPost(form: NgForm) {
+    let formData = new FormData();
+    formData.append('title', form.value.title);
+    formData.append('content', form.value.content);
+    formData.append('createdAt', new Date().toISOString().slice(0, 19).replace('T', ' '));
+    formData.append('author', this.postObj.author);
+  
+    if (this.post && this.post.category_id) {
+      formData.append('category_id', Number(this.post.category_id).toString());
+    }    
+  
+    if (this.selectedFile) {
+      formData.append('media', this.selectedFile, this.selectedFile.name);
     }
-    else {
-      this.restApi.addPost(this.postObj)
-        .subscribe(res => {
-          console.log(res);
+  
+    if (this.post.image) {
+      formData.append('image', this.post.image);
+    }
+  
+    this.authService.getEmail().subscribe(email => {
+      formData.append('userid', email);
+      
+      if (this.paramId) {
+        this.restApi.updatePost(formData, +this.paramId).subscribe(res => {
+          alert("Post updated successfully");
+          this.route.navigate(["/my-posts"]);
+        }, error => {
+          alert("Something went wrong");
+        });
+      } else {
+        this.restApi.addPost(formData).subscribe(res => {
           alert("New Post added successfully");
-          this.route.navigate(["/"])
-        },
-          error => {
-            alert("Something went wrong");
-          });
+          this.route.navigate(["/my-posts"]);
+        }, error => {
+          alert("Something went wrong");
+        });
+      }
+    });
+  }
+
+  getCategories(): void {
+    this.postService.getCategoryList().subscribe(
+      (data: any) => {
+        this.categories = data;
+        // console.log('CategoryElements:', this.categoryList);
+      },
+      (error) => {
+        console.error('Error:', error);
+      }
+    );
+  }
+  selectedFile!: File;
+
+  onFileSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files;
+    if (file) {
+      this.selectedFile = file[0];
     }
+  }
+
+  compareFn(c1: any, c2: any): boolean {
+    return c1 && c2 ? c1.cname === c2.cname : c1 === c2;
+  }
+
+  onCategoryChange(categoryId: number) {
+    this.post.category_id = categoryId;
+    //console.log(this.post.category_id);
   }
 }

@@ -8,9 +8,9 @@ export class UserService {
   private user: any;
   private currentUser: User | null;
 
-  constructor() { 
-    this.currentUser=null;
-    this.user=null;
+  constructor() {
+    this.currentUser = null;
+    this.user = null;
   }
 
   setUser(user: User): void {
@@ -22,7 +22,7 @@ export class UserService {
     return this.user;
   }
 
-  getUserId(): string {
+  getUserId(): number {
     return this.user ? this.user.id : null;
   }
 
@@ -35,7 +35,7 @@ export class UserService {
     this.currentUser = null;
   }
 
-  getCurrentUser(): User|null {
+  getCurrentUser(): User | null {
     return this.currentUser;
   }
 

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
@@ -8,6 +8,8 @@ import { HttpClientModule, HttpBackend, HttpClient  } from '@angular/common/http
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon'
+import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
+import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -17,8 +19,8 @@ import { HomeComponent } from './components/home/home.component';
 import { NewPostComponent } from './components/new-post/new-post.component';
 import { ContactFormComponent } from './components/contact-form/contact-form.component';
 import { MyPostsComponent } from './components/my-posts/my-posts.component';
-import { LikedPostsComponent } from './components/liked-posts/liked-posts.component';
 import { ViewPostComponent } from './components/view-post/view-post.component';
+import { BookmarkComponent } from './components/bookmark/bookmark.component';
 
 @NgModule({
   declarations: [
@@ -30,8 +32,8 @@ import { ViewPostComponent } from './components/view-post/view-post.component';
     NewPostComponent,
     ContactFormComponent,
     MyPostsComponent,
-    LikedPostsComponent,
-    ViewPostComponent
+    ViewPostComponent,
+    BookmarkComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +54,11 @@ import { ViewPostComponent } from './components/view-post/view-post.component';
     ReactiveFormsModule,
     HttpClientModule,
     MatSelectModule,
-    MatIconModule
+    MatIconModule,
+    ShareButtonsModule.withConfig({
+      debug: true
+    }),
+    ShareIconsModule
   ],
   providers: [
     { provide: HttpClient, deps: [HttpBackend] }
