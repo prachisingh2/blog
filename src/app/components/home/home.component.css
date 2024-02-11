@@ -55,7 +55,6 @@
    font-size: 0.8em;
    ;
  }
-
  @media (max-width: 768px) {
    h5.card-title {
      font-size: 1em;

@@ -11,8 +11,8 @@
         <div class="d-flex">
           <input type="search" [(ngModel)]="searchText" (keyup)="search()" placeholder="Search"
             class="form-control mb-3 mr-3" />
-          <mat-form-field>
-            <mat-label>Sort by</mat-label>
+          <mat-form-field class="small-mat-form-field">
+            <mat-icon>sort</mat-icon>
             <mat-select [(value)]="selectedFilter" (selectionChange)="filter($event.value)">
               <mat-select-trigger>
                 {{selectedFilter}}
@@ -25,7 +25,7 @@
             </mat-select>
           </mat-form-field>
           <mat-form-field *ngIf="categoryList">
-            <mat-label>Filter by Category</mat-label>
+            <mat-icon>filter_list</mat-icon>
             <mat-select [(value)]="selectedCategory" (selectionChange)="filterByCategory($event.value)">
               <mat-option *ngFor="let category of categoryList" [value]="category.cname">{{category.cname}}</mat-option>
             </mat-select>

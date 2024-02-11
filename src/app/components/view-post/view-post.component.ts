@@ -91,7 +91,7 @@ export class ViewPostComponent implements OnInit {
 
   allButtons = ['facebook', 'twitter', 'linkedin', 'email', 'print', 'pinterest'];
   buttonsToDisplay = this.allButtons.slice(0, 2);
-  showMore = false;
+  show = true;
 
   createComment(parentCommentId?: number): void {
     let dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
@@ -163,9 +163,10 @@ export class ViewPostComponent implements OnInit {
     return chunks;
   }
 
-  toggleShowMore() {
-    this.showMore = !this.showMore;
-    this.buttonsToDisplay = this.showMore ? this.allButtons : this.allButtons.slice(0, 2);
+  toggleShow() {
+    this.show = !this.show;
+    console.log('toggleShow called, show is now', this.show);
+    this.buttonsToDisplay = this.show ? this.allButtons : this.allButtons.slice(0, 2);
   }
 
   isImage(media: string | undefined): boolean {
@@ -186,8 +187,8 @@ export class ViewPostComponent implements OnInit {
     return ['mp4', 'webm', 'ogg'].includes(extension || '');
   }
 
-  toggleVideo(){
-    const video: HTMLVideoElement = this.videoP?.nativeElement;
-    video.paused? video.pause(): video.play();
-  }
+  // toggleVideo(){
+  //   const video: HTMLVideoElement = this.videoP?.nativeElement;
+  //   video.paused? video.pause(): video.play();
+  // }
 }

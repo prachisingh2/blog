@@ -28,8 +28,8 @@
                 <fa-icon [icon]="['fab', iconNames[button]]"></fa-icon>
               </share-button>
             </div>
-            <button class="toggle-button" *ngIf="!showMore" (click)="toggleShowMore()">Show More</button>
-            <button class="toggle-button" *ngIf="showMore" (click)="toggleShowMore()">Show Less</button>
+            <!-- <button class="toggle-button" *ngIf="!showMore" (click)="toggleShow()">Show More</button>
+            <button class="toggle-button" *ngIf="showMore" (click)="toggleShow()">Show Less</button> -->
           </share-buttons>
         </div>
       </div>
@@ -57,11 +57,11 @@
       </div>
     </div>
 
-    <!-- <div *ngIf="post">
+    <!-- <div>
       <video (click)="isVideo(post.media)" #videoP [src]="post.media" controls>
         Your browser does not support the video tag.
       </video>
-      <video (click)="toggleVideo()" [src]="post.media" controls>
+     <video (click)="toggleVideo()" [src]="post.media" controls>
         Your browser does not support the video tag.
       </video>
       <button (click)="toggleVideo()">
