@@ -1,9 +1,12 @@
+<div [ngClass]="{'dark-mode': isDarkMode}">
 <app-navbar class="fixed-top navbar-dark"></app-navbar>
 <div class="container">
   <div *ngIf="post" class="row">
     <div class="col-12 col-md-8">
       <div class="background-image" [style.backgroundImage]="'url(' + post.image + ')'"></div>
+      <!-- <div class="background-image" [style.backgroundImage]="'url(' + post.media + ')'"></div> -->
       <div class="post-container rounded shadow-sm bg-white p-4">
+        <h4 class="card-category">{{post && post.category_id ? categoryMap[post.category_id] : 'Unknown Category'}}</h4>
         <img [src]="post.image" class="card-img-top img-fluid" alt="...">
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center">
@@ -13,8 +16,7 @@
           </div>
           <p class="card-text">{{post.content}}</p>
           <p>Posted by {{post.author}} at <span class="post-date">{{ post.createdAt | date: 'dd/MM/yyyy' }}</span>
-            <img (click)="isImage(post.media)" [src]="post.media" alt="Post media"
-              class="rounded ml-2" style="width: 100px; height: auto;" />
+            <img (click)="isImage(post.media)" [src]="post.media" alt="Post media" class="rounded ml-2" style="width: 100px; height: auto;" />
           </p>
           <select #langSelect (change)="translatePost('en', langSelect.value)" class="form-control">
             <option *ngFor="let lang of languages" [value]="lang.code">{{ lang.label }}</option>
@@ -26,7 +28,7 @@
             <div *ngFor="let button of buttonsToDisplay">
               <share-button *ngIf="iconNames[button]" button="{{button}}">
                 <fa-icon [icon]="['fab', iconNames[button]]"></fa-icon>
-              </share-button>
+              </share-button> 
             </div>
             <!-- <button class="toggle-button" *ngIf="!showMore" (click)="toggleShow()">Show More</button>
             <button class="toggle-button" *ngIf="showMore" (click)="toggleShow()">Show Less</button> -->
@@ -69,4 +71,5 @@
     </div> -->
   </div>
 
+</div>
 </div>

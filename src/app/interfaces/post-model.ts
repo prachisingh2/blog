@@ -14,4 +14,5 @@ export class PostModel {
     bookmarked?: boolean;
     isPrivate?: boolean;
     category_id?: number;
+    scheduledAt?: string | Date;
 }

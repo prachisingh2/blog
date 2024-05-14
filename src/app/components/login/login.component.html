@@ -8,6 +8,7 @@
       <ul class="navbar-nav me-auto mb-2 mb-md-0">
         <li  class="nav-item">
           <a class="nav-link" routerLink="/login">Login</a>
+          <div class="g-signin2" data-onsuccess="onSignIn"></div>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/signup">Signup</a>
@@ -18,7 +19,21 @@
   </div>
 </nav>
 <div class="container">
-<h2 class="login text-center">Sign In</h2>
+<!-- <h2 class="login text-center">Sign In</h2> 
+ <div id="g_id_onload"
+     data-client_id="917154102436-i3prddv9av34a4m2go1q2eiul24mr2cl.apps.googleusercontent.com"
+     data-context="signin"
+     data-login_uri="http://localhost:3000/users/login/google"
+     data-auto_prompt="false">
+</div> 
+<div class="g_id_signin"
+     data-type="standard"
+     data-shape="rectangular"
+     data-theme="outline"
+     data-text="signin_with"
+     data-size="large"
+     data-logo_alignment="left">
+</div> -->
 <form #f="ngForm" (ngSubmit)="onLogin(f)">
   <input ngModel #email="ngModel"  name="email" type="email" class="form-control" placeholder="Email" required email>
   <div class="alert alert-danger" *ngIf="email.touched && email.errors?.['required']">Email is required!</div>

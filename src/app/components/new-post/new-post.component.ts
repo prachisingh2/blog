@@ -7,7 +7,6 @@ import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { PostService } from '../../services/post.service';
 import { HttpClient } from '@angular/common/http';
-import { concatMap, map } from 'rxjs';
 
 @Component({
   selector: 'app-new-post',
@@ -30,8 +29,7 @@ export class NewPostComponent implements OnInit {
     private route: Router,
     private activatedRouter: ActivatedRoute,
     private authService: AuthService,
-    private postService: PostService,
-    private apiService: ApiService) {
+    private postService: PostService) {
     this.paramId = this.activatedRouter.snapshot.paramMap.get('pid');
     this.authService.getCurrentUser().subscribe(user => {
       if (!user) {
@@ -55,6 +53,7 @@ export class NewPostComponent implements OnInit {
       content: [''],
       category_id: [''],
       image: [''],
+      scheduledAt: [''],
       createdAt: [new Date()]
     });
     this.getCategories();
@@ -66,7 +65,8 @@ export class NewPostComponent implements OnInit {
     formData.append('content', form.value.content);
     formData.append('createdAt', new Date().toISOString().slice(0, 19).replace('T', ' '));
     formData.append('author', this.postObj.author);
-  
+    const scheduledAtValue = form.value.scheduledAt ? new Date(form.value.scheduledAt).toISOString().slice(0, 19).replace('T', ' ') : null;
+    
     if (this.post && this.post.category_id) {
       formData.append('category_id', Number(this.post.category_id).toString());
     }    
@@ -77,6 +77,10 @@ export class NewPostComponent implements OnInit {
   
     if (this.post.image) {
       formData.append('image', this.post.image);
+    }
+    
+    if (scheduledAtValue) {
+      formData.append('scheduledAt', scheduledAtValue);
     }
   
     this.authService.getEmail().subscribe(email => {

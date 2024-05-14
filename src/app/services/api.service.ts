@@ -38,7 +38,7 @@ export class ApiService {
     return this.http.delete<any>("http://localhost:3000/posts/" + pid)
       .pipe(map((res: any) => {
         return res;
-      }))
+      }));
   }
 
   getSinglePost(pid: number) {
@@ -56,12 +56,12 @@ export class ApiService {
         }
       }));
   }
-
+  
   addContact(data: any) {
     return this.http.post<any>("http://localhost:3000/comments", data)
       .pipe(map((res: any) => {
         return res;
-      }))
+      }));
   }
 
   getMyPost(authorid: number) {
@@ -87,4 +87,21 @@ export class ApiService {
         return res;
       }));
   }
+//   // Method to retrieve conversations for the current user
+// getConversations(userId: number): Observable<any[]> {
+//   return this.http.get<any[]>(`${this.apiUrl}/conversations/${userId}`).pipe(
+//     map((res: any) => {
+//       return res;
+//     })
+//   );
+// }
+
+// // Method to retrieve messages for a specific conversation
+// getConversationMessages(conversationId: number): Observable<any[]> {
+//   return this.http.get<any[]>(`${this.apiUrl}/conversation/${conversationId}`).pipe(
+//     map((res: any) => {
+//       return res;
+//     })
+//   );
+// }
 }

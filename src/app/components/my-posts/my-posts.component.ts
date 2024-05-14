@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { PostModel } from '../../interfaces/post-model';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-my-posts',
@@ -11,11 +12,14 @@ import { PostModel } from '../../interfaces/post-model';
 })
 export class MyPostsComponent implements OnInit {
   myPost: any;
-
+  isDarkMode: boolean = false;
+  
   constructor(
     private restApi: ApiService,
     private router: Router,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private themeService: ThemeService,
+    private cdr:ChangeDetectorRef) {
     this.authService.getCurrentUser().subscribe(user => {
       if (!user) {
         this.router.navigate(['login']);
@@ -26,6 +30,10 @@ export class MyPostsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.themeService.getDarkMode().subscribe(darkMode => {
+      this.isDarkMode = darkMode;
+      this.cdr.detectChanges();
+    });
     this.getMyPost();
   }
 

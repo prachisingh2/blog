@@ -1,39 +1,30 @@
-<app-navbar></app-navbar>
+<div [ngClass]="{'dark-mode': isDarkMode}">
+    <app-navbar></app-navbar>
 
-<div class="container">
-    <div class="col">
-        <div class="row">
-            <ng-container *ngFor="let p of myPost">
-                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                    <div class="card h-100" style="cursor: pointer;" (click)="viewPost(p)">
-                        <div class="card" style="width: 18rem;">
+    <div class="container">
+        <div class="col">
+            <div class="row">
+                <ng-container *ngFor="let p of myPost">
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <div class="card h-100" style="cursor: pointer;" (click)="viewPost(p)">
                             <img [src]="p.image" class="card-img-top" alt="..." height="200px">
                             <div class="card-body">
                                 <h5 class="card-title">{{p.title | titlecase}}</h5>
-                                <span *ngIf="!showMore[p.pid]">{{ (p.content.length > 100 ? p.content.substr(0, 100) +
-                                    '...' : p.content)
-                                    }}</span>
-                                <button class="see-more" *ngIf="!showMore[p.pid]"
-                                    (click)="toggleShowMore(p.pid, $event)">See
-                                    More</button>
-
+                                <span *ngIf="!showMore[p.pid]">{{ (p.content.length > 100 ? p.content.substr(0, 100) + '...' : p.content) }}</span>
+                                <button class="see-more" *ngIf="!showMore[p.pid]" (click)="toggleShowMore(p.pid, $event)">See More</button>
                                 <p *ngIf="showMore[p.pid]">{{ p.content }}</p>
-                                <button class="see-more" *ngIf="showMore[p.pid]"
-                                    (click)="toggleShowMore(p.pid, $event)">See Less</button>
+                                <button class="see-more" *ngIf="showMore[p.pid]" (click)="toggleShowMore(p.pid, $event)">See Less</button>
 
-                                <p>Posted by {{p.author}} at {{p.createdAt| date: 'dd/MM/yyyy'}}</p>
                                 <div class="card-footer">
-                                    <a id="set-width" class="btn btn-success btn-block button-width"
-                                        [routerLink]="['/edit-post/',p.pid]"> Edit </a>
+                                    <a id="set-width" class="btn btn-success btn-block button-width" [routerLink]="['/edit-post/',p.pid]"> Edit </a>
                                     <button id="set-width" class="btn btn-secondary btn-block button-width align-right"
                                         (click)="deletePost(p.pid)">Delete</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </ng-container>
+                </ng-container>
+            </div>
         </div>
-
-    </div>
+    </div> 
 </div>

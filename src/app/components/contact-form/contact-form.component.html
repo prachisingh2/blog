@@ -1,3 +1,4 @@
+<div [ngClass]="{'dark-mode': isDarkMode}">
 <app-navbar class="fixed-top"></app-navbar>
 <div class="container mt-5">
     <section class="mb-4">
@@ -8,7 +9,7 @@
 
         <div class="row justify-content-center">
             <div class="col-md-8 mb-5">
-                <div class="card bg-light">
+                <div class="card">
                     <div class="card-body">
                         <form id="contact-form" name="contact-form" #f="ngForm" (ngSubmit)="newContact(f)">
                             <div class="row">
@@ -73,3 +74,4 @@
         <p>blog.com</p>
     </div>
 </footer>
+</div>

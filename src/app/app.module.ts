@@ -21,6 +21,8 @@ import { ContactFormComponent } from './components/contact-form/contact-form.com
 import { MyPostsComponent } from './components/my-posts/my-posts.component';
 import { ViewPostComponent } from './components/view-post/view-post.component';
 import { BookmarkComponent } from './components/bookmark/bookmark.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -58,10 +60,12 @@ import { BookmarkComponent } from './components/bookmark/bookmark.component';
     ShareButtonsModule.withConfig({
       debug: true
     }),
-    ShareIconsModule
+    ShareIconsModule,
+    NgbModule
   ],
   providers: [
-    { provide: HttpClient, deps: [HttpBackend] }
+    { provide: HttpClient, deps: [HttpBackend] },
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })

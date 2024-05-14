@@ -9,6 +9,9 @@ import { map } from 'rxjs/operators';
 export class AuthService {
 
   constructor(private http: HttpClient) { }
+  
+  private currentUserId: number | null = null;
+
   getUsers() {
     return this.http.get<any>("http://localhost:3000/users", { withCredentials: true })
       .pipe(map((res: any) => {
@@ -27,6 +30,7 @@ export class AuthService {
       .pipe(map((res: any) => {
         //console.log(res.user);
         if (res && res.user) {
+          this.currentUserId = res.user.id;
           return res.user;
         } else {
           throw new Error("Invalid credentials");
@@ -34,10 +38,23 @@ export class AuthService {
       }));
   }
 
+  // googleLogin(credential: string): Observable<any> {
+  //   return this.http.post<any>("http://localhost:3000/users/login/google", { credential }, { withCredentials: true })
+  //     .pipe(map((res: any) => {
+  //       if (res && res.user) {
+  //         this.currentUserId = res.user.id;
+  //         return res.user;
+  //       } else {
+  //         throw new Error("Google login failed");
+  //       }
+  //     }));
+  // }
+
   logout() {
     return this.http.get<any>("http://localhost:3000/users/logout", { withCredentials: true })
       .pipe(map((res: any) => {
         if (res && res.message === 'Logged out') {
+          this.currentUserId = null;
           return true;
         } else {
           throw new Error('Logout failed');
@@ -48,6 +65,11 @@ export class AuthService {
   getCurrentUser() {
     return this.http.get<any>("http://localhost:3000/users/me", { withCredentials: true });
 
+  }
+
+
+  getCurrentUserId(): number | null {
+    return this.currentUserId;
   }
 
   getEmail(): Observable<string> {

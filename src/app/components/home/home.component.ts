@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PostModel } from '../../interfaces/post-model';
 import { ApiService } from '../../services/api.service';
@@ -6,6 +6,8 @@ import { HttpClient } from '@angular/common/http';
 import { UserService } from '../../services/user.service';
 import { PostService } from '../../services/post.service';
 import { AuthService } from '../../services/auth.service';
+import { ThemeService } from '../../services/theme.service';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -22,13 +24,18 @@ export class HomeComponent implements OnInit {
   post: PostModel = {
     isPrivate: false
   };
+  isLiked = false;
+  expandedPostId: number | null = null;
+  isDarkMode: boolean = false;
 
   constructor(private restApi: ApiService,
     private router: Router,
     private http: HttpClient,
     private userService: UserService,
     private postService: PostService,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private themeService: ThemeService,
+    private cdr: ChangeDetectorRef) {
 
     this.username = this.userService.getUser();
     if (!this.username) {
@@ -47,6 +54,10 @@ export class HomeComponent implements OnInit {
   categoryMap: { [key: number]: string } = {};
 
   ngOnInit(): void {
+    this.themeService.getDarkMode().subscribe(darkMode => {
+      this.isDarkMode = darkMode;
+      this.cdr.detectChanges();
+    });
     this.getBookmarkedPosts();
     this.getCategories().then(() => {
       this.getAllPost();
@@ -71,13 +82,10 @@ export class HomeComponent implements OnInit {
       );
     });
   }
-  isLiked = false;
-
-  showMore: { [key: string]: boolean } = {};
 
   toggleShowMore(pid: number, event: any) {
     event.stopPropagation();
-    this.showMore[pid.toString()] = !this.showMore[pid.toString()];
+    this.expandedPostId = this.expandedPostId === pid ? null : pid;
   }
 
   getAllPost() {
@@ -109,6 +117,7 @@ export class HomeComponent implements OnInit {
   }
 
   selectedFilter: string | null = null;
+
   filter(filterOption: string) {
     this.selectedFilter = filterOption;
     if (filterOption === 'date') {
@@ -188,4 +197,5 @@ export class HomeComponent implements OnInit {
       );
     }
   }
+  
 }

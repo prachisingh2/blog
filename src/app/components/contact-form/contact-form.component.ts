@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ContactInfo } from '../../interfaces/contact-info';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-contact-form',
@@ -12,9 +13,13 @@ import { AuthService } from '../../services/auth.service';
 })
 export class ContactFormComponent implements OnInit {
   contact:ContactInfo=new ContactInfo();
+  isDarkMode: boolean = false;
+
   constructor(private restApi:ApiService,
     private route:Router,
-    private authService: AuthService) { 
+    private authService: AuthService,
+    private themeService: ThemeService,
+    private cdr:ChangeDetectorRef) { 
       this.authService.getCurrentUser().subscribe(user => {
         if (!user) {
           this.route.navigate(['login']);
@@ -23,6 +28,10 @@ export class ContactFormComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    this.themeService.getDarkMode().subscribe(darkMode => {
+      this.isDarkMode = darkMode;
+      this.cdr.detectChanges();
+    });
   }
   
   newContact(form:NgForm){

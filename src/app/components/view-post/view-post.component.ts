@@ -7,6 +7,8 @@ import { UserService } from '../../services/user.service';
 import { TranslateService } from '../../services/translate.service';
 import { Location } from '@angular/common';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
+import { PostService } from '../../services/post.service';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-view-post',
@@ -57,15 +59,18 @@ export class ViewPostComponent implements OnInit {
   @ViewChild('videoP') videoP?:ElementRef;
 
   postUrl = '';
+  categoryMap: { [key: number]: string } = {};
+  isDarkMode: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private apiService: ApiService,
     private authService: AuthService,
     private userService: UserService,
+    private postService: PostService,
     private location: Location,
-    private translateService: TranslateService
-  ) { }
+    private translateService: TranslateService,
+    private themeService: ThemeService ) { }
 
   ngOnInit(): void {
     this.postUrl = window.location.origin + this.location.path();
@@ -86,6 +91,10 @@ export class ViewPostComponent implements OnInit {
     this.userid = this.userService.getUserId();
     this.authService.getEmail().subscribe(email => {
       this.userEmail = email;
+    });
+    this.fetchCategories();
+    this.themeService.getDarkMode().subscribe(darkMode => {
+      this.isDarkMode = darkMode;
     });
   }
 
@@ -191,4 +200,13 @@ export class ViewPostComponent implements OnInit {
   //   const video: HTMLVideoElement = this.videoP?.nativeElement;
   //   video.paused? video.pause(): video.play();
   // }
+
+
+  fetchCategories(): void {
+    this.postService.getCategoryList().subscribe(categories => {
+      categories.forEach((category: any) => {
+        this.categoryMap[category.id] = category.cname;
+      });
+    });
+  }
 }

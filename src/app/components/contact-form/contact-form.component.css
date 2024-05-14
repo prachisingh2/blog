@@ -13,6 +13,10 @@
     background-color: rgb(255, 255, 255);
 }
 
+.card {
+  background-color: #dddddd;
+  color: #000000;
+}
 .footer {
     width: 100%;
     position: absolute;
@@ -25,3 +29,23 @@
     font-size: 0.8em;
     margin-bottom: 10px;
 }
+
+.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+  
+.dark-mode .card {
+    background-color: #242424;
+    color: #e0e0e0;
+  }
+  
+.dark-mode footer.bottom {
+    background: #1a1a1a;
+    color: #e0e0e0;
+  }
+  .dark-mode .container {
+    background-color: #242424;
+    color: #e0e0e0;
+  }
+  

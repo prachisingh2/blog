@@ -17,7 +17,10 @@
   </div>
 </nav>
 <div class="container">
-  <h2 class="text-center">Sign Up</h2>
+  <!-- <h2 class="text-center">Sign Up</h2> -->
+  <!-- <div class="text-center">
+    <div class="g-signin2" data-onsuccess="onGoogleSignUp"></div>
+  </div> -->
   <form (ngSubmit)="onSignup()" #registerForm="ngForm">
     <input name="name" [(ngModel)]="user.name" type="text" class="form-control" placeholder="Your name" required><br>
     <div class="alert alert-danger" *ngIf="registerForm.controls['name']?.touched && registerForm.controls['name']?.invalid">Your name is required!</div>
