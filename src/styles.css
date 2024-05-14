@@ -1,8 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
 @import "primeicons/primeicons.css";
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 @import '../node_modules/bootstrap/scss/bootstrap.scss';
 @import "../node_modules/@fortawesome/fontawesome-free/css/all.css";
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
 
 body {
   height: 100%;
@@ -10,4 +10,11 @@ body {
   padding-top: 60px;
 }
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { 
+  margin: 0;
+   font-family: Roboto, "Helvetica Neue", sans-serif; 
+  }
+body.dark-mode {
+  background-color: #333;
+  color: #ddd;
+}
